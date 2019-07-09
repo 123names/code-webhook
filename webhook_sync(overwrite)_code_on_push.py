@@ -43,15 +43,18 @@ def api_wait_git_message():
                                stdout = open(os.devnull, 'w')) == 0:
                 print(current_local_repository_path, " exist, issue pull request")
                 # if it is git repository path
-                subprocess.call(['cd "' + current_local_repository_path + '" && git pull '+ remote_repository_path],
-                            shell=True)
+                subprocess.call(['cd "' + current_local_repository_path + '" && git fetch '+ remote_repository_path], shell=True)
+                subprocess.call(['cd "' + current_local_repository_path + '" && git reset --hard FETCH_HEAD '], shell=True)
+                
+                # Here is run pull, no overwrite
+                #subprocess.call(['cd "' + current_local_repository_path + '" && git pull '+ remote_repository_path],
+                #            shell=True)
             else:
                 # if it is not git repository path
                 user_input = input("Path exist, but it is not git repository, do you want to initiate directory as git repository (y) or exit the hook (n)?")
                 if user_input in ["y","Y","YES","Yes","yes"]:
                     subprocess.call(['cd "' + current_local_repository_path + '" && git init '],shell=True)
-                    subprocess.call(['cd "' + current_local_repository_path + '" && git pull ' + remote_repository_path],
-                                    shell=True)
+                    subprocess.call(['cd "' + current_local_repository_path + '" && git pull ' + remote_repository_path], shell=True)
                 else:
                     print("Exit the web hook for git auto synchronization")
                     func = request.environ.get('werkzeug.server.shutdown')
