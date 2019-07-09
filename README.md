@@ -1,5 +1,5 @@
 # code-webhook
-A simple python webhook try to updated local repository automatically on each Github push (or other event base on you setting).
+A simple python webhook try to update (notice it overwrite local changes) local repository automatically on each Github push (or other event base on you setting).
 
 To set it up, do the following:
 
